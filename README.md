@@ -3,9 +3,9 @@
 ### A simple way to buy and sell carbon credits using blockchain technology. Beyond that, users can see last transactions and use thrid-party services to calculate their carbon excess.
 
 #### Team Members:
-- [Vinicius Corrêa de Assis]
-- [Marcelle Andrade]
-- [João Henrique]
+- Vinicius Corrêa de Assis
+- Marcelle Andrade
+- João Henrique
 
 
 #### Problem Statement:
