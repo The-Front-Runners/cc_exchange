@@ -1,14 +1,14 @@
-// SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.13;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
 
-contract Counter {
-    uint256 public number;
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-    function setNumber(uint256 newNumber) public {
-        number = newNumber;
-    }
+contract CarbonCredit is ERC20, ERC20Burnable, Ownable {
+    constructor() ERC20("CarbonCredit", "CC") {}
 
-    function increment() public {
-        number++;
+    function mint(address to, uint256 amount) public onlyOwner {
+        _mint(to, amount);
     }
 }
