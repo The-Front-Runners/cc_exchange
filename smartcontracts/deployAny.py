@@ -6,6 +6,13 @@ from json import dumps, load
 from typing import List
 import os
 
+import argparse
+
+# Parse command line arguments
+parser = argparse.ArgumentParser(description='Deploy contracts and update frontend interface.')
+parser.add_argument('--contract', type=str, help='Name of the contract to deploy', required=True)
+args = parser.parse_args()
+
 
 @dataclass
 class Contract:
@@ -22,7 +29,7 @@ class Contract:
 
 
 CHAIN_ID = 31337
-CONTRACT_SCRIPT_NAME = "DeployEmissionValidator.s.sol"
+CONTRACT_SCRIPT_NAME = f"Deploy{args.contract}.s.sol"
 TRANSACTIONS_PATH = f"broadcast/{CONTRACT_SCRIPT_NAME}/{CHAIN_ID}/run-latest.json"
 TARGET_DIR = "../smartcontract_interface/generated/deployedContracts.ts"
 
