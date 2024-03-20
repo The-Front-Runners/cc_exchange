@@ -78,4 +78,16 @@ contract EmissionValidator is Ownable, Pausable {
     function getHowManyRequests() public view returns (uint256) {
         return requestCounter;
     }
+
+    function getCarbonCreditAddress() public view returns (address) {
+        return address(carbonCreditToken);
+    }
+
+    function getValidatorStatus(address _validator) public view returns (bool) {
+        return validators[_validator];
+    }
+
+    function getOwner() public view returns (address) {
+        return owner();
+    }
 }

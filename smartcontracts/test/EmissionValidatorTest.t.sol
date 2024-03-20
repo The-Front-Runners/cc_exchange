@@ -9,12 +9,13 @@ contract EmissionValidatorTest is Test {
     EmissionValidator ev;
     DeployEmissionValidator deploy;
     address public VALIDATOR = makeAddr("validator");
+    address public COMPANY = makeAddr("company");
 
     function setUp() public {
         deploy = new DeployEmissionValidator();
         ev = deploy.run();
         console2.log("Carbon credit address: ", address(ev));
-        vm.deal(VALIDATOR, 1000);
+        vm.deal(VALIDATOR, 1000 ether);
     }
 
     function testIfIsPausedOnDeploy() public view {
@@ -25,14 +26,25 @@ contract EmissionValidatorTest is Test {
         assertEq(ev.requestCounter(), 0);
     }
 
-    function testIfRequestIsSubmitted() public {
-        ev.submitRequest("jsonHash");
-        assertEq(ev.requestCounter(), 1);
-    }
-
-    function testIfValidatorIsBeingAdded() public {
+    function testIfOnlyOwnerCanAddValidator() public {
+        vm.prank(ev.getOwner());
         ev.addValidator(VALIDATOR);
         assertEq(ev.validators(VALIDATOR), true);
     }
 
+    function testRevertsIfNotOwnerTryAddingValidator() public {
+        vm.expectRevert();
+        vm.prank(COMPANY);
+        ev.addValidator(VALIDATOR);
+    }
+
+    function testIfRequestIsSubmitted() public {
+        vm.prank(COMPANY);
+        ev.submitRequest("jsonHash");
+        assertEq(ev.requestCounter(), 1);
+    }
+
+    function testIfOwnerIsMsgSender() public view{
+        assertEq(ev.getOwner(), msg.sender);
+    }
 }
