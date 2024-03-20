@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/utils/Pausable.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import { CarbonCredit } from "./CarbonCredit.sol";
 
-contract CarbonCreditApproval is Ownable, Pausable {
+contract EmissionValidator is Ownable, Pausable {
     enum Status { Pending, Approved, Rejected }
 
     struct Request {
@@ -24,7 +24,7 @@ contract CarbonCreditApproval is Ownable, Pausable {
     event RequestSubmitted(uint256 requestId, address requester);
     event RequestValidated(uint256 requestId, Status status, uint256 amount);
 
-    constructor(address initialOwner) Ownable(initialOwner) {
+    constructor() Ownable(msg.sender) {
         carbonCreditToken = new CarbonCredit();
     }
 
@@ -54,6 +54,10 @@ contract CarbonCreditApproval is Ownable, Pausable {
 
     function removeValidator(address _validator) public onlyOwner {
         validators[_validator] = false;
+    }
+
+    function isPaused() public view returns (bool) {
+        return paused();
     }
 
     function pause() public onlyOwner {
