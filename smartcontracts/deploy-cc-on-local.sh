@@ -1,6 +1,6 @@
 forge b --skip test script --build-info
 
-forge script script/deployCarbonCredit.s.sol:DeployCarbonCredit \
+forge script script/DeployCarbonCredit.s.sol:DeployCarbonCredit \
     --rpc-url http://127.0.0.1:8545 \
     --build-info \
     --broadcast \
