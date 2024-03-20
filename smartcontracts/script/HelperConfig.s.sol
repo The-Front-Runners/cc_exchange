@@ -18,10 +18,22 @@ contract HelperConfig is Script{
     constructor(){
         if(block.chainid == 31337){
             activeNetworkConfig = getOrCreateAnvilEthConfig();
+        } else if(block.chainid == 11155420){
+            activeNetworkConfig = getOptimismTestnetConfig();
         }
     }
 
     function getOrCreateAnvilEthConfig() public returns (NetworkConfig memory){
+        vm.startBroadcast();
+        CarbonCredit cc = new CarbonCredit();
+        vm.stopBroadcast();
+
+        NetworkConfig memory config = NetworkConfig({
+            carbonCreditAddress: address(cc)
+        });
+        return config;
+    }
+    function getOptimismTestnetConfig() public returns (NetworkConfig memory){
         vm.startBroadcast();
         CarbonCredit cc = new CarbonCredit();
         vm.stopBroadcast();

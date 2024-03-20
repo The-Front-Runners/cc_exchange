@@ -23,8 +23,7 @@ contract EmissionValidator is Ownable, Pausable {
     event RequestSubmitted(uint256 requestId, address requester);
     event RequestValidated(uint256 requestId, Status status, uint256 amount);
 
-    constructor(address _initialCarbonContract) Ownable(msg.sender) {
-        carbonCreditToken = CarbonCredit(_initialCarbonContract);
+    constructor() Ownable(msg.sender) {
     }
 
     modifier onlyValidator() {
@@ -90,4 +89,9 @@ contract EmissionValidator is Ownable, Pausable {
     function getOwner() public view returns (address) {
         return owner();
     }
+
+    function setCarbonCreditAddress(address _carbonCreditAddress) public onlyOwner {
+        carbonCreditToken = CarbonCredit(_carbonCreditAddress);
+    }
+
 }

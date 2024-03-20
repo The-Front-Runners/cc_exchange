@@ -11,11 +11,11 @@ contract DeployEmissionValidator is Script {
         console2.log("Deploying EmissionValidator");
         console2.log("Owner: ", msg.sender);
 
-        HelperConfig hc = new HelperConfig();
-        (address carbonCreditAddress) = hc.activeNetworkConfig();
+        // HelperConfig hc = new HelperConfig();
+        // () = hc.activeNetworkConfig();
 
         vm.startBroadcast();
-        EmissionValidator ev = new EmissionValidator(carbonCreditAddress);
+        EmissionValidator ev = new EmissionValidator();
         vm.stopBroadcast();
         return ev;
     }

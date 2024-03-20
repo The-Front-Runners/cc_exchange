@@ -10,6 +10,7 @@ contract EmissionValidatorTest is Test {
     DeployEmissionValidator deploy;
     address public VALIDATOR = makeAddr("validator");
     address public COMPANY = makeAddr("company");
+    address public CARBON_CREDIT = makeAddr("carbonCredit");
 
     function setUp() public {
         deploy = new DeployEmissionValidator();
@@ -47,4 +48,18 @@ contract EmissionValidatorTest is Test {
     function testIfOwnerIsMsgSender() public view{
         assertEq(ev.getOwner(), msg.sender);
     }
+    function testIfDefaultCarbonCreditAddressIsZero() public view {
+        assertEq(address(ev.carbonCreditToken()), address(0));
+    }
+    function testSetCarbonCreditAddressRevertsIfNotOwner() public {
+        vm.prank(COMPANY);
+        vm.expectRevert();
+        ev.setCarbonCreditAddress(VALIDATOR);
+    }
+    function testSetCarbonCreditAddress() public {
+        vm.prank(ev.getOwner());
+        ev.setCarbonCreditAddress(CARBON_CREDIT);
+        assertEq(address(ev.carbonCreditToken()), CARBON_CREDIT);
+    }
+
 }
