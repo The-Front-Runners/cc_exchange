@@ -3,7 +3,6 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Pausable.sol";
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import { CarbonCredit } from "./CarbonCredit.sol";
 
 contract EmissionValidator is Ownable, Pausable {
@@ -24,8 +23,13 @@ contract EmissionValidator is Ownable, Pausable {
     event RequestSubmitted(uint256 requestId, address requester);
     event RequestValidated(uint256 requestId, Status status, uint256 amount);
 
-    constructor() Ownable(msg.sender) {
-        carbonCreditToken = new CarbonCredit();
+    constructor(address _initialCarbonContract) Ownable(msg.sender) {
+        carbonCreditToken = CarbonCredit(_initialCarbonContract);
+    }
+
+    modifier onlyValidator() {
+        require(validators[msg.sender], "Caller is not a validator");
+        _;
     }
 
     function submitRequest(string memory _jsonHash) public whenNotPaused {
@@ -34,8 +38,7 @@ contract EmissionValidator is Ownable, Pausable {
         requestCounter++;
     }
 
-    function validateRequest(uint256 _requestId, Status _status, uint256 _amount) public whenNotPaused {
-        require(validators[msg.sender], "Caller is not a validator");
+    function validateRequest(uint256 _requestId, Status _status, uint256 _amount) public whenNotPaused onlyValidator {
         require(requests[_requestId].status == Status.Pending, "Request is not pending");
 
         requests[_requestId].status = _status;
@@ -66,5 +69,13 @@ contract EmissionValidator is Ownable, Pausable {
 
     function unpause() public onlyOwner {
         _unpause();
+    }
+
+    function getRequests(uint256 _requestId) public view returns (Request memory) {
+        return requests[_requestId];
+    }
+
+    function getHowManyRequests() public view returns (uint256) {
+        return requestCounter;
     }
 }
