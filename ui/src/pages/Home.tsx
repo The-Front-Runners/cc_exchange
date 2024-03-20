@@ -1,4 +1,5 @@
 import CO2Logo from '../components/CO2Logo';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 export default function Home() {
   return (
@@ -17,10 +18,10 @@ export default function Home() {
           <div className="mt-20">
             <CO2Logo />
           </div>
-          <h2 className="text-5xl mt-[-50px]">Bem-vindo novamente!</h2>
-          <button className="bg-lime-600 hover:bg-lime-500 text-2xl rounded px-10 py-4 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-[20%]">
-            Conecte sua carteira
-          </button>
+          <h2 className="text-5xl mt-[-40px]">Bem-vindo novamente!</h2>
+          <div className="text-2xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-[20%]">
+            <ConnectButton label="Conecte sua carteira" />
+          </div>
         </div>
       </div>
     </div>
