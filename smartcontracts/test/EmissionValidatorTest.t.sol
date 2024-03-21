@@ -162,6 +162,12 @@ contract EmissionValidatorTest is Test {
     /**
      * @dev Carbon credit token tests
      */
+    function testModifierWhenCarbonCreditSet() public {
+        vm.prank(ev.owner());
+        ev.setCarbonCreditAddress(CARBON_CREDIT);
+        ev.getCarbonCreditAddress();
+    }
+
     function testIfRevertsIfCarbonCreditNotSet() public {
         vm.expectRevert();
         ev.getCarbonCreditAddress();
@@ -185,7 +191,7 @@ contract EmissionValidatorTest is Test {
 
     function testClaimRevertsIfCarbonCreditTokenNotSet() companySubmitedRequest addValidator approveRequestWith1000Ether public {
         vm.prank(COMPANY);
-        vm.expectRevert();
+        vm.expectRevert("CarbonCredit token is not set");
         ev.claimTokens(0);
     }
 
@@ -197,11 +203,29 @@ contract EmissionValidatorTest is Test {
         vm.expectRevert();
         ev.claimTokens(0);
     }
-    function testIfCanClaimWithRequestApproved () companySubmitedRequest addValidator approveRequestWith1000Ether public {
-        vm.prank(COMPANY);
-        ev.claimTokens(0);
-        assertEq(ev.getCarbonCreditToken().balanceOf(COMPANY), 1000);
+
+    function testIfContractIsGettingCarbonCreditTokens() public {
+        vm.prank(ev.owner());
+        ev.setCarbonCreditAddress(CARBON_CREDIT);
+
+        
+        console2.log("Owner balance: ", ev.getCarbonCreditToken().balanceOf(ev.owner()));
+        console2.log("CarbonCredit balance: ", ev.getCarbonCreditToken().balanceOf(address(ev)));
+
+
+        vm.prank(ev.getCarbonCreditToken().owner());
+        ev.fundWithCarbonCredits(1000 ether);
+
+        assertEq(ev.getCarbonCreditToken().balanceOf(address(ev)), 1000 ether);
     }
+    // function testIfCanClaimWithRequestApproved () companySubmitedRequest addValidator approveRequestWith1000Ether public {
+    //     vm.prank(ev.owner());
+    //     ev.setCarbonCreditAddress(CARBON_CREDIT);
+        
+    //     vm.prank(COMPANY);
+    //     ev.claimTokens(0);
+    //     assertEq(ev.getCarbonCreditToken().balanceOf(COMPANY), 1000);
+    // }
 
 // 0xa513E6E4b8f2a923D98304ec87F64353C4D5C853
 

@@ -40,7 +40,7 @@ contract EmissionValidator is Ownable, Pausable {
     }
 
     modifier whenCarbonCreditSet() {
-        require(address(carbonCreditToken) != address(0), "CarbonCredit address is not set");
+        require(address(carbonCreditToken) != address(0), "CarbonCredit token is not set");
         _;
     }
 
@@ -115,18 +115,15 @@ contract EmissionValidator is Ownable, Pausable {
         return requestCounter;
     }
 
-    function getCarbonCreditAddress() public view returns (address) {
-        if(address(carbonCreditToken) == address(0)) {
-            revert("CarbonCredit address is not set");
-        }
+    function getCarbonCreditAddress() public view whenCarbonCreditSet returns (address) {
         return address(carbonCreditToken);
     }
 
-    function getCarbonCreditToken() public view returns (CarbonCredit) {
+    function getCarbonCreditToken() public view whenCarbonCreditSet returns (CarbonCredit) {
         return carbonCreditToken;
     }
 
-    function getCarbonCreditBalance() public view returns (uint256) {
+    function getCarbonCreditBalance() public view whenCarbonCreditSet returns (uint256)  {
         return carbonCreditToken.balanceOf(address(this));
     }
 
@@ -143,7 +140,7 @@ contract EmissionValidator is Ownable, Pausable {
      */
 
     function setCarbonCreditAddress(address _carbonCreditAddress) public onlyOwner {
-        carbonCreditToken = CarbonCredit(_carbonCreditAddress);
+        carbonCreditToken = _carbonCreditAddress != address(0) ? CarbonCredit(_carbonCreditAddress) : CarbonCredit(_carbonCreditAddress);
     }
 
     /**
