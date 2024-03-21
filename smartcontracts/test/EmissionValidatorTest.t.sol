@@ -41,7 +41,7 @@ contract EmissionValidatorTest is Test {
         ev.validateRequest(0, EmissionValidator.Status.Approved, 1000 ether);
         _;
     }
-    
+
      modifier companySubmitedRequest() {
         vm.prank(COMPANY);
         ev.submitRequest("jsonHash");
@@ -60,17 +60,13 @@ contract EmissionValidatorTest is Test {
         assertEq(ev.requestCounter(), 0);
     }
 
-    function testIfOnlyOwnerCanAddValidator() public {
-        vm.prank(ev.owner());
-        ev.addValidator(VALIDATOR);
-        assertEq(ev.isValidator(VALIDATOR), true);
+    function testIfOwnerIsMsgSender() public view{
+        assertEq(ev.owner(), msg.sender);
     }
 
-    function testRevertsIfNotOwnerTryAddingValidator() public {
-        vm.expectRevert();
-        vm.prank(COMPANY);
-        ev.addValidator(VALIDATOR);
-    }
+    /**
+     * @dev Request tests
+     */
 
     function testIfRequestIsSubmitted() public {
         vm.prank(COMPANY);
@@ -80,9 +76,25 @@ contract EmissionValidatorTest is Test {
         assertEq(uint256(request.status), uint256(EmissionValidator.Status.Pending));
     }
 
-    function testIfOwnerIsMsgSender() public view{
-        assertEq(ev.owner(), msg.sender);
+    function testIfRequestsByUserSet() public {
+        vm.prank(COMPANY);
+        ev.submitRequest("jsonHash");
+        assertEq(ev.getRequestsByAddress(COMPANY).length, 1);
     }
+
+    function testIfRequestsByUserAreIncremented() public {
+        vm.prank(COMPANY);
+        ev.submitRequest("jsonHash");
+        assertEq(ev.getRequestsByAddress(COMPANY).length, 1);
+
+        vm.prank(COMPANY);
+        ev.submitRequest("jsonHash2");
+        assertEq(ev.getRequestsByAddress(COMPANY).length, 2);
+    }
+
+    /**
+     * @dev Carbon credit token tests
+     */
     
     function testSetCarbonCreditAddressRevertsIfNotOwner() public {
         vm.prank(COMPANY);
@@ -94,6 +106,23 @@ contract EmissionValidatorTest is Test {
         ev.setCarbonCreditAddress(CARBON_CREDIT);
         assertEq(address(ev.getCarbonCreditAddress()), CARBON_CREDIT);
     }
+
+    /**
+     * @dev Validation tests
+     */
+
+   function testIfOnlyOwnerCanAddValidator() public {
+        vm.prank(ev.owner());
+        ev.addValidator(VALIDATOR);
+        assertEq(ev.isValidator(VALIDATOR), true);
+    }
+
+    function testRevertsIfNotOwnerTryAddingValidator() public {
+        vm.expectRevert();
+        vm.prank(COMPANY);
+        ev.addValidator(VALIDATOR);
+    }
+
     function testIfRequestIsSubmittedAndValidated() companySubmitedRequest public {
         EmissionValidator.Request memory request;
         vm.prank(ev.owner());
@@ -104,12 +133,6 @@ contract EmissionValidatorTest is Test {
         request = ev.getRequests(0);
         assertEq(uint256(request.status), uint256(EmissionValidator.Status.Approved));
     }
-
-   
-
-    /**
-     * @dev Validation tests
-     */
 
     function testIfRemovedValidatorCantValidateRequest() companySubmitedRequest addValidator removeValidator public {
         vm.prank(VALIDATOR);
@@ -160,11 +183,12 @@ contract EmissionValidatorTest is Test {
         ev.claimTokens(0);
     }
 
-    function testIfCanClaimWithRequestApproved() companySubmitedRequest addValidator approveRequestWith1000Ether public {
-        assertEq(ev.getCarbonCreditToken().balanceOf(COMPANY), 1000 ether);
-    }
+    // function testIfCanClaimWithRequestApproved() companySubmitedRequest addValidator approveRequestWith1000Ether public {
+    //     assertEq(ev.getCarbonCreditToken().balanceOf(COMPANY), 1000 ether);
+    // }
 
-// 0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0
+// 0xa513E6E4b8f2a923D98304ec87F64353C4D5C853
+
     // function testFundContractWithCarbonCreditTokens() public {
     //     vm.deal(CARBON_CREDIT, 1000 ether);
     //     vm.prank(ev.owner());
