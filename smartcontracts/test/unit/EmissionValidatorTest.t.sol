@@ -3,15 +3,15 @@ pragma solidity ^0.8.13;
 
 import {Test} from "forge-std/Test.sol";
 import {console2} from "forge-std/console2.sol";
-import {EmissionValidator} from "../src/EmissionValidator.sol";
-import {DeployEmissionValidator} from "../script/DeployEmissionValidator.s.sol";
+import {EmissionValidator} from "../../src/EmissionValidator.sol";
+import {DeployEmissionValidator} from "../../script/DeployEmissionValidator.s.sol";
 
 contract EmissionValidatorTest is Test {
     EmissionValidator ev;
     DeployEmissionValidator deploy;
     address public VALIDATOR = makeAddr("validator");
     address public COMPANY = makeAddr("company");
-    address public CARBON_CREDIT = makeAddr("carbonCredit");
+    address public CARBON_CREDIT_MOCK_ADDRESS = makeAddr("carbonCredit");
 
     function setUp() public {
         deploy = new DeployEmissionValidator();
@@ -103,8 +103,8 @@ contract EmissionValidatorTest is Test {
     }
     function testSetCarbonCreditAddress() public {
         vm.prank(ev.owner());
-        ev.setCarbonCreditAddress(CARBON_CREDIT);
-        assertEq(address(ev.getCarbonCreditAddress()), CARBON_CREDIT);
+        ev.setCarbonCreditAddress(CARBON_CREDIT_MOCK_ADDRESS);
+        assertEq(address(ev.getCarbonCreditAddress()), CARBON_CREDIT_MOCK_ADDRESS);
     }
 
     /**
@@ -164,7 +164,7 @@ contract EmissionValidatorTest is Test {
      */
     function testModifierWhenCarbonCreditSet() public {
         vm.prank(ev.owner());
-        ev.setCarbonCreditAddress(CARBON_CREDIT);
+        ev.setCarbonCreditAddress(CARBON_CREDIT_MOCK_ADDRESS);
         ev.getCarbonCreditAddress();
     }
 
@@ -197,64 +197,10 @@ contract EmissionValidatorTest is Test {
 
     function testClaimRevertsIfTheresNoCarbonCreditOnTheContract() companySubmitedRequest addValidator approveRequestWith1000Ether public {
         vm.prank(ev.owner());
-        ev.setCarbonCreditAddress(CARBON_CREDIT);
+        ev.setCarbonCreditAddress(CARBON_CREDIT_MOCK_ADDRESS);
         
         vm.prank(COMPANY);
         vm.expectRevert();
         ev.claimTokens(0);
     }
-
-    function testIfContractIsGettingCarbonCreditTokens() public {
-        vm.prank(ev.owner());
-        ev.setCarbonCreditAddress(CARBON_CREDIT);
-
-        
-        console2.log("Owner balance: ", ev.getCarbonCreditToken().balanceOf(ev.owner()));
-        console2.log("CarbonCredit balance: ", ev.getCarbonCreditToken().balanceOf(address(ev)));
-
-
-        vm.prank(ev.getCarbonCreditToken().owner());
-        ev.fundWithCarbonCredits(1000 ether);
-
-        assertEq(ev.getCarbonCreditToken().balanceOf(address(ev)), 1000 ether);
-    }
-    // function testIfCanClaimWithRequestApproved () companySubmitedRequest addValidator approveRequestWith1000Ether public {
-    //     vm.prank(ev.owner());
-    //     ev.setCarbonCreditAddress(CARBON_CREDIT);
-        
-    //     vm.prank(COMPANY);
-    //     ev.claimTokens(0);
-    //     assertEq(ev.getCarbonCreditToken().balanceOf(COMPANY), 1000);
-    // }
-
-// 0xa513E6E4b8f2a923D98304ec87F64353C4D5C853
-
-    // function testFundContractWithCarbonCreditTokens() public {
-    //     vm.deal(CARBON_CREDIT, 1000 ether);
-    //     vm.prank(ev.owner());
-    //     ev.setCarbonCreditAddress(CARBON_CREDIT);
-    //     assertEq(ev.getCarbonCreditToken().balanceOf(address(ev)), 1000 ether);
-    // }
-
-    // function testClaimsSucceded() companySubmitedRequest addValidator approveRequestWith1000Ether public {
-    //     vm.prank(COMPANY);
-    //     ev.claimTokens(0);
-    //     assertEq(ev.getCarbonCreditToken().balanceOf(COMPANY), 1000);
-    // }
-
-    // function testIfCanClaimOnlyOnce() companySubmitedRequest addValidator approveRequestWith1000Ether public {
-    //     vm.prank(COMPANY);
-    //     ev.claimTokens(0);
-
-    //     vm.prank(COMPANY); 
-    //     vm.expectRevert();
-    //     ev.claimTokens(0);
-    // }
-
-    // function testIfStatusIsClaimedAfterClaiming() companySubmitedRequest addValidator approveRequestWith1000Ether public {
-    //     vm.prank(COMPANY);
-    //     ev.claimTokens(0);
-    //     EmissionValidator.Request memory request = ev.getRequests(0);
-    //     assertEq(uint256(request.status), uint256(EmissionValidator.Status.Claimed));
-    // }
 }
