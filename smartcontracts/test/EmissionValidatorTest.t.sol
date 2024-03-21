@@ -31,7 +31,7 @@ contract EmissionValidatorTest is Test {
     function testIfOnlyOwnerCanAddValidator() public {
         vm.prank(ev.getOwner());
         ev.addValidator(VALIDATOR);
-        assertEq(ev.validators(VALIDATOR), true);
+        assertEq(ev.isValidator(VALIDATOR), true);
     }
 
     function testRevertsIfNotOwnerTryAddingValidator() public {
@@ -52,7 +52,7 @@ contract EmissionValidatorTest is Test {
         assertEq(ev.getOwner(), msg.sender);
     }
     function testIfDefaultCarbonCreditAddressIsZero() public view {
-        assertEq(address(ev.carbonCreditToken()), address(0));
+        assertEq(address(ev.getCarbonCreditAddress()), address(0));
     }
     function testSetCarbonCreditAddressRevertsIfNotOwner() public {
         vm.prank(COMPANY);
@@ -62,7 +62,7 @@ contract EmissionValidatorTest is Test {
     function testSetCarbonCreditAddress() public {
         vm.prank(ev.getOwner());
         ev.setCarbonCreditAddress(CARBON_CREDIT);
-        assertEq(address(ev.carbonCreditToken()), CARBON_CREDIT);
+        assertEq(address(ev.getCarbonCreditAddress()), CARBON_CREDIT);
     }
     function testIfRequestIsSubmittedAndValidated() companySubmitedRequest public {
         EmissionValidator.Request memory request;
@@ -133,7 +133,27 @@ contract EmissionValidatorTest is Test {
     }
 
     function testIfCanClaimWithRequestApproved() companySubmitedRequest addValidator approveRequestWith1000Ether public {
-        assertEq(ev.carbonCreditToken().balanceOf(COMPANY), 1000 ether);
+        assertEq(ev.getCarbonCreditToken().balanceOf(COMPANY), 1000 ether);
+    }
+
+    function testIfIsValidator() public {
+        assertEq(ev.isValidator(VALIDATOR), false);
+        vm.prank(ev.getOwner());
+        ev.addValidator(VALIDATOR);
+        assertEq(ev.isValidator(VALIDATOR), true);
+    }
+// 0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0
+    function testFundContractWithCarbonCreditTokens() public {
+        vm.deal(CARBON_CREDIT, 1000 ether);
+        vm.prank(ev.getOwner());
+        ev.setCarbonCreditAddress(CARBON_CREDIT);
+        assertEq(ev.getCarbonCreditToken().balanceOf(address(ev)), 1000 ether);
+    }
+
+    function testClaimsSucceded() companySubmitedRequest addValidator approveRequestWith1000Ether public {
+        vm.prank(COMPANY);
+        ev.claimTokens(0);
+        assertEq(ev.getCarbonCreditToken().balanceOf(COMPANY), 1000);
     }
 
     function testIfCanClaimOnlyOnce() companySubmitedRequest addValidator approveRequestWith1000Ether public {
@@ -143,5 +163,12 @@ contract EmissionValidatorTest is Test {
         vm.prank(COMPANY); 
         vm.expectRevert();
         ev.claimTokens(0);
+    }
+
+    function testIfStatusIsClaimedAfterClaiming() companySubmitedRequest addValidator approveRequestWith1000Ether public {
+        vm.prank(COMPANY);
+        ev.claimTokens(0);
+        EmissionValidator.Request memory request = ev.getRequests(0);
+        assertEq(uint256(request.status), uint256(EmissionValidator.Status.Claimed));
     }
 }
