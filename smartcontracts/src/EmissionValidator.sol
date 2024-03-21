@@ -79,6 +79,7 @@ contract EmissionValidator is Ownable, Pausable {
     }
 
     function fundWithCarbonCredits(uint256 _amount) public whenNotPaused whenCarbonCreditSet onlyOwner {
+        require(carbonCreditToken.allowance(msg.sender, address(this)) >= _amount, "Not enough allowance");
         require(carbonCreditToken.balanceOf(msg.sender) >= _amount, "Not enough tokens to transfer");
         carbonCreditToken.safeTransferFrom(msg.sender, address(this), _amount);
     }
