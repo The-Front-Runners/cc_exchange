@@ -22,10 +22,11 @@ contract CarbonCreditTest is Test {
     }
 
     function testMint() public {
-        vm.prank(cc.getOwner());    
+        vm.prank(cc.getOwner());
         cc.mint(address(this), 1000);
         assertEq(cc.balanceOf(address(this)), 1000);
     }
+
     function testMintRevertsIfNotOwner() public {
         vm.expectRevert();
         cc.mint(USER1, 1000);

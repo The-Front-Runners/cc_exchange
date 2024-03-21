@@ -23,12 +23,11 @@ contract EmissionValidatorTest is Test {
     /**
      * @dev Modifiers
      */
-
     modifier addValidator() {
-            vm.prank(ev.owner());
-            ev.addValidator(VALIDATOR);
-            _;
-        }
+        vm.prank(ev.owner());
+        ev.addValidator(VALIDATOR);
+        _;
+    }
 
     modifier removeValidator() {
         vm.prank(ev.owner());
@@ -42,7 +41,7 @@ contract EmissionValidatorTest is Test {
         _;
     }
 
-     modifier companySubmitedRequest() {
+    modifier companySubmitedRequest() {
         vm.prank(COMPANY);
         ev.submitRequest("jsonHash");
         _;
@@ -51,23 +50,21 @@ contract EmissionValidatorTest is Test {
     /**
      * @dev General tests
      */
-
     function testIfIsPausedOnDeploy() public view {
         assertEq(ev.isPaused(), false);
     }
 
-    function testIfContractStartsWithNoRequest () public view {
+    function testIfContractStartsWithNoRequest() public view {
         assertEq(ev.requestCounter(), 0);
     }
 
-    function testIfOwnerIsMsgSender() public view{
+    function testIfOwnerIsMsgSender() public view {
         assertEq(ev.owner(), msg.sender);
     }
 
     /**
      * @dev Request tests
      */
-
     function testIfRequestIsSubmitted() public {
         vm.prank(COMPANY);
         ev.submitRequest("jsonHash");
@@ -95,12 +92,12 @@ contract EmissionValidatorTest is Test {
     /**
      * @dev Carbon credit token tests
      */
-    
     function testSetCarbonCreditAddressRevertsIfNotOwner() public {
         vm.prank(COMPANY);
         vm.expectRevert();
         ev.setCarbonCreditAddress(VALIDATOR);
     }
+
     function testSetCarbonCreditAddress() public {
         vm.prank(ev.owner());
         ev.setCarbonCreditAddress(CARBON_CREDIT_MOCK_ADDRESS);
@@ -110,8 +107,7 @@ contract EmissionValidatorTest is Test {
     /**
      * @dev Validation tests
      */
-
-   function testIfOnlyOwnerCanAddValidator() public {
+    function testIfOnlyOwnerCanAddValidator() public {
         vm.prank(ev.owner());
         ev.addValidator(VALIDATOR);
         assertEq(ev.isValidator(VALIDATOR), true);
@@ -123,7 +119,7 @@ contract EmissionValidatorTest is Test {
         ev.addValidator(VALIDATOR);
     }
 
-    function testIfRequestIsSubmittedAndValidated() companySubmitedRequest public {
+    function testIfRequestIsSubmittedAndValidated() public companySubmitedRequest {
         EmissionValidator.Request memory request;
         vm.prank(ev.owner());
         ev.addValidator(VALIDATOR);
@@ -134,26 +130,27 @@ contract EmissionValidatorTest is Test {
         assertEq(uint256(request.status), uint256(EmissionValidator.Status.Approved));
     }
 
-    function testIfRemovedValidatorCantValidateRequest() companySubmitedRequest addValidator removeValidator public {
+    function testIfRemovedValidatorCantValidateRequest() public companySubmitedRequest addValidator removeValidator {
         vm.prank(VALIDATOR);
         vm.expectRevert();
         ev.validateRequest(0, EmissionValidator.Status.Approved, 1000 ether);
     }
 
-    function testAmountIsUpdatedWhenRequestIsValidated() companySubmitedRequest addValidator public {
+    function testAmountIsUpdatedWhenRequestIsValidated() public companySubmitedRequest addValidator {
         vm.prank(VALIDATOR);
         ev.validateRequest(0, EmissionValidator.Status.Approved, 1000 ether);
         EmissionValidator.Request memory request = ev.getRequests(0);
         assertEq(request.amount, 1000 ether);
     }
-    function testChangeStatusToRejectedIfRequestIsRejected() companySubmitedRequest addValidator public {
+
+    function testChangeStatusToRejectedIfRequestIsRejected() public companySubmitedRequest addValidator {
         vm.prank(VALIDATOR);
         ev.validateRequest(0, EmissionValidator.Status.Rejected, 1000 ether);
         EmissionValidator.Request memory request = ev.getRequests(0);
         assertEq(uint256(request.status), uint256(EmissionValidator.Status.Rejected));
-    }   
+    }
 
-     function testIfIsValidator() public {
+    function testIfIsValidator() public {
         assertEq(ev.isValidator(VALIDATOR), false);
         vm.prank(ev.owner());
         ev.addValidator(VALIDATOR);
@@ -162,6 +159,7 @@ contract EmissionValidatorTest is Test {
     /**
      * @dev Carbon credit token tests
      */
+
     function testModifierWhenCarbonCreditSet() public {
         vm.prank(ev.owner());
         ev.setCarbonCreditAddress(CARBON_CREDIT_MOCK_ADDRESS);
@@ -176,29 +174,39 @@ contract EmissionValidatorTest is Test {
     /**
      * @dev Claim tests
      */
-    function testIfCanClaimWithStatusRejected() companySubmitedRequest addValidator public {
+    function testIfCanClaimWithStatusRejected() public companySubmitedRequest addValidator {
         vm.prank(VALIDATOR);
         ev.validateRequest(0, EmissionValidator.Status.Rejected, 1000 ether);
 
         vm.expectRevert();
         ev.claimTokens(0);
-    }   
+    }
 
-    function testIfCanClaimWithRequestPending() companySubmitedRequest addValidator public {
+    function testIfCanClaimWithRequestPending() public companySubmitedRequest addValidator {
         vm.expectRevert();
         ev.claimTokens(0);
     }
 
-    function testClaimRevertsIfCarbonCreditTokenNotSet() companySubmitedRequest addValidator approveRequestWith1000Ether public {
+    function testClaimRevertsIfCarbonCreditTokenNotSet()
+        public
+        companySubmitedRequest
+        addValidator
+        approveRequestWith1000Ether
+    {
         vm.prank(COMPANY);
         vm.expectRevert("CarbonCredit token is not set");
         ev.claimTokens(0);
     }
 
-    function testClaimRevertsIfTheresNoCarbonCreditOnTheContract() companySubmitedRequest addValidator approveRequestWith1000Ether public {
+    function testClaimRevertsIfTheresNoCarbonCreditOnTheContract()
+        public
+        companySubmitedRequest
+        addValidator
+        approveRequestWith1000Ether
+    {
         vm.prank(ev.owner());
         ev.setCarbonCreditAddress(CARBON_CREDIT_MOCK_ADDRESS);
-        
+
         vm.prank(COMPANY);
         vm.expectRevert();
         ev.claimTokens(0);

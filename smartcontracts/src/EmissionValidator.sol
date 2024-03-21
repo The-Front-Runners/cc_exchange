@@ -4,13 +4,17 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Pausable.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
-import { CarbonCredit } from "./CarbonCredit.sol";
-
+import {CarbonCredit} from "./CarbonCredit.sol";
 
 contract EmissionValidator is Ownable, Pausable {
     using SafeERC20 for CarbonCredit;
 
-    enum Status { Pending, Approved, Rejected, Claimed }
+    enum Status {
+        Pending,
+        Approved,
+        Rejected,
+        Claimed
+    }
 
     struct Request {
         address requester;
@@ -31,8 +35,7 @@ contract EmissionValidator is Ownable, Pausable {
     event RequestValidated(uint256 requestId, Status status, uint256 amount);
     event TokensClaimed(uint256 _requestId, address requester, uint256 amount);
 
-    constructor() Ownable(msg.sender) {
-    }
+    constructor() Ownable(msg.sender) {}
 
     modifier onlyValidator() {
         require(validators[msg.sender], "Caller is not a validator");
@@ -107,7 +110,6 @@ contract EmissionValidator is Ownable, Pausable {
     /**
      * @dev Getters
      */
-
     function getRequests(uint256 _requestId) public view returns (Request memory) {
         return requests[_requestId];
     }
@@ -124,7 +126,7 @@ contract EmissionValidator is Ownable, Pausable {
         return carbonCreditToken;
     }
 
-    function getCarbonCreditBalance() public view whenCarbonCreditSet returns (uint256)  {
+    function getCarbonCreditBalance() public view whenCarbonCreditSet returns (uint256) {
         return carbonCreditToken.balanceOf(address(this));
     }
 
@@ -139,15 +141,14 @@ contract EmissionValidator is Ownable, Pausable {
     /**
      * @dev Setters
      */
-
     function setCarbonCreditAddress(address _carbonCreditAddress) public onlyOwner {
-        carbonCreditToken = _carbonCreditAddress != address(0) ? CarbonCredit(_carbonCreditAddress) : CarbonCredit(_carbonCreditAddress);
+        carbonCreditToken =
+            _carbonCreditAddress != address(0) ? CarbonCredit(_carbonCreditAddress) : CarbonCredit(_carbonCreditAddress);
     }
 
     /**
      * @dev Fallback function
      */
-
     receive() external payable {
         carbonCreditToken.transfer(address(this), msg.value);
     }

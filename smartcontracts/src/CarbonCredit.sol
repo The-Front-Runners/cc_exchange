@@ -8,11 +8,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Permit.sol";
 
 contract CarbonCredit is ERC20, ERC20Burnable, Ownable, ERC20Permit {
-    constructor()
-        ERC20("CarbonCredits", "CC")
-        Ownable(msg.sender)
-        ERC20Permit("CarbonCredits")
-    {        
+    constructor() ERC20("CarbonCredits", "CC") Ownable(msg.sender) ERC20Permit("CarbonCredits") {
         _mint(msg.sender, 1000000 * 10 ** decimals());
     }
 

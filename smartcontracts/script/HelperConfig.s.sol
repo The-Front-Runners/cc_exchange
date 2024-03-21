@@ -2,11 +2,10 @@
 
 pragma solidity ^0.8.20;
 
-import { Script } from "forge-std/Script.sol";
-import { CarbonCredit } from "../src/CarbonCredit.sol";
+import {Script} from "forge-std/Script.sol";
+import {CarbonCredit} from "../src/CarbonCredit.sol";
 
-contract HelperConfig is Script{
-
+contract HelperConfig is Script {
     struct NetworkConfig {
         address carbonCreditAddress;
     }
@@ -15,32 +14,29 @@ contract HelperConfig is Script{
 
     NetworkConfig public activeNetworkConfig;
 
-    constructor(){
-        if(block.chainid == 31337){
+    constructor() {
+        if (block.chainid == 31337) {
             activeNetworkConfig = getOrCreateAnvilEthConfig();
-        } else if(block.chainid == 11155420){
+        } else if (block.chainid == 11155420) {
             activeNetworkConfig = getOptimismTestnetConfig();
         }
     }
 
-    function getOrCreateAnvilEthConfig() public returns (NetworkConfig memory){
+    function getOrCreateAnvilEthConfig() public returns (NetworkConfig memory) {
         vm.startBroadcast();
         CarbonCredit cc = new CarbonCredit();
         vm.stopBroadcast();
 
-        NetworkConfig memory config = NetworkConfig({
-            carbonCreditAddress: address(cc)
-        });
+        NetworkConfig memory config = NetworkConfig({carbonCreditAddress: address(cc)});
         return config;
     }
-    function getOptimismTestnetConfig() public returns (NetworkConfig memory){
+
+    function getOptimismTestnetConfig() public returns (NetworkConfig memory) {
         vm.startBroadcast();
         CarbonCredit cc = new CarbonCredit();
         vm.stopBroadcast();
 
-        NetworkConfig memory config = NetworkConfig({
-            carbonCreditAddress: address(cc)
-        });
+        NetworkConfig memory config = NetworkConfig({carbonCreditAddress: address(cc)});
         return config;
     }
 }

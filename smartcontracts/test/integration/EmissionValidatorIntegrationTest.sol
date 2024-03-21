@@ -8,8 +8,7 @@ import {DeployEmissionValidator} from "../../script/DeployEmissionValidator.s.so
 import {CarbonCredit} from "../../src/CarbonCredit.sol";
 import {DeployCarbonCredit} from "../../script/DeployCarbonCredit.s.sol";
 
-contract EmissionValidatorIntegrationTest is Test { 
-
+contract EmissionValidatorIntegrationTest is Test {
     EmissionValidator ev;
     CarbonCredit cc;
     DeployEmissionValidator deployEmissionValidator;
@@ -20,7 +19,6 @@ contract EmissionValidatorIntegrationTest is Test {
     address public CARBON_CREDIT_MOCK_ADDRESS = makeAddr("carbonCredit");
     address public EV_OWNER;
     address public CC_OWNER;
-    
 
     function setUp() public {
         deployEmissionValidator = new DeployEmissionValidator();
@@ -53,7 +51,7 @@ contract EmissionValidatorIntegrationTest is Test {
 
         vm.prank(VALIDATOR);
         ev.validateRequest(0, EmissionValidator.Status.Approved, 1000 ether);
-        
+
         vm.prank(COMPANY);
         vm.expectRevert("Not enough tokens to claim");
         ev.claimTokens(0);
