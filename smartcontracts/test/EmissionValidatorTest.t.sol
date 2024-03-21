@@ -183,9 +183,25 @@ contract EmissionValidatorTest is Test {
         ev.claimTokens(0);
     }
 
-    // function testIfCanClaimWithRequestApproved() companySubmitedRequest addValidator approveRequestWith1000Ether public {
-    //     assertEq(ev.getCarbonCreditToken().balanceOf(COMPANY), 1000 ether);
-    // }
+    function testClaimRevertsIfCarbonCreditTokenNotSet() companySubmitedRequest addValidator approveRequestWith1000Ether public {
+        vm.prank(COMPANY);
+        vm.expectRevert();
+        ev.claimTokens(0);
+    }
+
+    function testClaimRevertsIfTheresNoCarbonCreditOnTheContract() companySubmitedRequest addValidator approveRequestWith1000Ether public {
+        vm.prank(ev.owner());
+        ev.setCarbonCreditAddress(CARBON_CREDIT);
+        
+        vm.prank(COMPANY);
+        vm.expectRevert();
+        ev.claimTokens(0);
+    }
+    function testIfCanClaimWithRequestApproved () companySubmitedRequest addValidator approveRequestWith1000Ether public {
+        vm.prank(COMPANY);
+        ev.claimTokens(0);
+        assertEq(ev.getCarbonCreditToken().balanceOf(COMPANY), 1000);
+    }
 
 // 0xa513E6E4b8f2a923D98304ec87F64353C4D5C853
 
