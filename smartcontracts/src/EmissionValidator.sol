@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/utils/Pausable.sol";
 import { CarbonCredit } from "./CarbonCredit.sol";
 
 contract EmissionValidator is Ownable, Pausable {
-    enum Status { Pending, Approved, Rejected }
+    enum Status { Pending, Approved, Rejected, Claimed }
 
     struct Request {
         address requester;
@@ -15,10 +15,10 @@ contract EmissionValidator is Ownable, Pausable {
         string jsonHash;
     }
 
-    mapping(uint256 => Request) public requests;
-    mapping(address => bool) public validators;
+    mapping(uint256 => Request) private requests;
+    mapping(address => bool) private validators;
 
-    CarbonCredit public carbonCreditToken;
+    CarbonCredit private carbonCreditToken;
 
     uint256 public requestCounter;
 
@@ -61,6 +61,8 @@ contract EmissionValidator is Ownable, Pausable {
         requests[_requestId].amount = 0;
         carbonCreditToken.transfer(msg.sender, amount);
 
+        requests[_requestId].status = Status.Claimed;
+
         emit TokensClaimed(_requestId, msg.sender, amount);
     }
 
@@ -97,10 +99,17 @@ contract EmissionValidator is Ownable, Pausable {
     }
 
     function getCarbonCreditAddress() public view returns (address) {
+        if(address(carbonCreditToken) == address(0)) {
+            revert("CarbonCredit address is not set");
+        }
         return address(carbonCreditToken);
     }
 
-    function getValidatorStatus(address _validator) public view returns (bool) {
+    function getCarbonCreditToken() public view returns (CarbonCredit) {
+        return carbonCreditToken;
+    }
+
+    function isValidator(address _validator) public view returns (bool) {
         return validators[_validator];
     }
 
@@ -111,4 +120,12 @@ contract EmissionValidator is Ownable, Pausable {
     function setCarbonCreditAddress(address _carbonCreditAddress) public onlyOwner {
         carbonCreditToken = CarbonCredit(_carbonCreditAddress);
     }
+    receive() external payable {
+        carbonCreditToken.transfer(address(this), msg.value);
+    }
+
+    function getCarbonCreditBalance() public view returns (uint256) {
+        return carbonCreditToken.balanceOf(address(this));
+    }
+
 }
