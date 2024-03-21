@@ -3,9 +3,13 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Pausable.sol";
+import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import { CarbonCredit } from "./CarbonCredit.sol";
 
+
 contract EmissionValidator is Ownable, Pausable {
+    using SafeERC20 for CarbonCredit;
+
     enum Status { Pending, Approved, Rejected, Claimed }
 
     struct Request {
@@ -71,8 +75,9 @@ contract EmissionValidator is Ownable, Pausable {
         emit TokensClaimed(_requestId, msg.sender, amount);
     }
 
-    function fundWithCarbonCredits(uint256 _amount) public {
-        carbonCreditToken.transferFrom(msg.sender, address(this), _amount);
+    function fundWithCarbonCredits(uint256 _amount) public whenNotPaused whenCarbonCreditSet onlyOwner {
+        require(carbonCreditToken.balanceOf(msg.sender) >= _amount, "Not enough tokens to transfer");
+        carbonCreditToken.safeTransferFrom(msg.sender, address(this), _amount);
     }
 
     function addValidator(address _validator) public onlyOwner {
