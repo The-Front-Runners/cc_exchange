@@ -34,6 +34,11 @@ contract EmissionValidator is Ownable, Pausable {
         _;
     }
 
+    modifier whenCarbonCreditSet() {
+        require(address(carbonCreditToken) != address(0), "CarbonCredit address is not set");
+        _;
+    }
+
     function submitRequest(string memory _jsonHash) public whenNotPaused {
         requests[requestCounter] = Request(msg.sender, Status.Pending, 0, _jsonHash);
         emit RequestSubmitted(requestCounter, msg.sender);
@@ -49,7 +54,7 @@ contract EmissionValidator is Ownable, Pausable {
         emit RequestValidated(_requestId, _status, _amount);
     }
 
-    function claimTokens(uint256 _requestId) public whenNotPaused {
+    function claimTokens(uint256 _requestId) public whenNotPaused whenCarbonCreditSet {
         require(requests[_requestId].status == Status.Approved, "Request is not approved");
         require(requests[_requestId].requester == msg.sender, "Caller is not the requester");
         require(requests[_requestId].amount > 0, "No tokens to claim");
@@ -113,19 +118,15 @@ contract EmissionValidator is Ownable, Pausable {
         return validators[_validator];
     }
 
-    function getOwner() public view returns (address) {
-        return owner();
-    }
-
     function setCarbonCreditAddress(address _carbonCreditAddress) public onlyOwner {
         carbonCreditToken = CarbonCredit(_carbonCreditAddress);
-    }
-    receive() external payable {
-        carbonCreditToken.transfer(address(this), msg.value);
     }
 
     function getCarbonCreditBalance() public view returns (uint256) {
         return carbonCreditToken.balanceOf(address(this));
     }
 
+    receive() external payable {
+        carbonCreditToken.transfer(address(this), msg.value);
+    }
 }
