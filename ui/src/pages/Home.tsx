@@ -1,7 +1,18 @@
 import CO2Logo from '../components/CO2Logo';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAccount } from 'wagmi';
 
 export default function Home() {
+  const { isConnected } = useAccount();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isConnected) {
+      navigate('/dashboard');
+    }
+  }, [isConnected, navigate]);
   return (
     <div className="flex items-center h-screen text-white bg-lime-500">
       <div className="w-[45%] px-24 ">
