@@ -21,6 +21,7 @@ contract EmissionValidator is Ownable, Pausable {
 
     mapping(uint256 => Request) private requests;
     mapping(address => bool) private validators;
+    mapping(address => uint256[]) private requestsByAddress;
 
     CarbonCredit private carbonCreditToken;
 
@@ -44,8 +45,10 @@ contract EmissionValidator is Ownable, Pausable {
     }
 
     function submitRequest(string memory _jsonHash) public whenNotPaused {
-        requests[requestCounter] = Request(msg.sender, Status.Pending, 0, _jsonHash);
-        emit RequestSubmitted(requestCounter, msg.sender);
+        uint256 requestId = requestCounter;
+        requests[requestId] = Request(msg.sender, Status.Pending, 0, _jsonHash);
+        requestsByAddress[msg.sender].push(requestId);
+        emit RequestSubmitted(requestId, msg.sender);
         requestCounter++;
     }
 
@@ -100,6 +103,10 @@ contract EmissionValidator is Ownable, Pausable {
         _unpause();
     }
 
+    /**
+     * @dev Getters
+     */
+
     function getRequests(uint256 _requestId) public view returns (Request memory) {
         return requests[_requestId];
     }
@@ -119,17 +126,29 @@ contract EmissionValidator is Ownable, Pausable {
         return carbonCreditToken;
     }
 
+    function getCarbonCreditBalance() public view returns (uint256) {
+        return carbonCreditToken.balanceOf(address(this));
+    }
+
+    function getRequestsByAddress(address _address) public view returns (uint256[] memory) {
+        return requestsByAddress[_address];
+    }
+
     function isValidator(address _validator) public view returns (bool) {
         return validators[_validator];
     }
+
+    /**
+     * @dev Setters
+     */
 
     function setCarbonCreditAddress(address _carbonCreditAddress) public onlyOwner {
         carbonCreditToken = CarbonCredit(_carbonCreditAddress);
     }
 
-    function getCarbonCreditBalance() public view returns (uint256) {
-        return carbonCreditToken.balanceOf(address(this));
-    }
+    /**
+     * @dev Fallback function
+     */
 
     receive() external payable {
         carbonCreditToken.transfer(address(this), msg.value);
