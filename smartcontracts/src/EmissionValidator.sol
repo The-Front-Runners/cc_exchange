@@ -12,16 +12,19 @@ contract EmissionValidator is Ownable, Pausable {
         address requester;
         Status status;
         uint256 amount;
+        string jsonHash;
     }
 
     mapping(uint256 => Request) public requests;
     mapping(address => bool) public validators;
+
     CarbonCredit public carbonCreditToken;
 
     uint256 public requestCounter;
 
     event RequestSubmitted(uint256 requestId, address requester);
     event RequestValidated(uint256 requestId, Status status, uint256 amount);
+    event TokensClaimed(uint256 _requestId, address requester, uint256 amount);
 
     constructor() Ownable(msg.sender) {
     }
@@ -32,7 +35,7 @@ contract EmissionValidator is Ownable, Pausable {
     }
 
     function submitRequest(string memory _jsonHash) public whenNotPaused {
-        requests[requestCounter] = Request(msg.sender, Status.Pending, 0);
+        requests[requestCounter] = Request(msg.sender, Status.Pending, 0, _jsonHash);
         emit RequestSubmitted(requestCounter, msg.sender);
         requestCounter++;
     }
@@ -43,11 +46,26 @@ contract EmissionValidator is Ownable, Pausable {
         requests[_requestId].status = _status;
         requests[_requestId].amount = _amount;
 
-        if (_status == Status.Approved) {
-            carbonCreditToken.transfer(requests[_requestId].requester, _amount);
-        }
-
         emit RequestValidated(_requestId, _status, _amount);
+    }
+
+    function claimTokens(uint256 _requestId) public whenNotPaused {
+        require(requests[_requestId].status == Status.Approved, "Request is not approved");
+        require(requests[_requestId].requester == msg.sender, "Caller is not the requester");
+        require(requests[_requestId].amount > 0, "No tokens to claim");
+        require(carbonCreditToken.balanceOf(address(this)) >= requests[_requestId].amount, "Not enough tokens to claim");
+
+        uint256 amount = requests[_requestId].amount;
+        require(amount > 0, "No tokens to claim");
+
+        requests[_requestId].amount = 0;
+        carbonCreditToken.transfer(msg.sender, amount);
+
+        emit TokensClaimed(_requestId, msg.sender, amount);
+    }
+
+    function fundWithCarbonCredits(uint256 _amount) public {
+        carbonCreditToken.transferFrom(msg.sender, address(this), _amount);
     }
 
     function addValidator(address _validator) public onlyOwner {
@@ -93,5 +111,4 @@ contract EmissionValidator is Ownable, Pausable {
     function setCarbonCreditAddress(address _carbonCreditAddress) public onlyOwner {
         carbonCreditToken = CarbonCredit(_carbonCreditAddress);
     }
-
 }
