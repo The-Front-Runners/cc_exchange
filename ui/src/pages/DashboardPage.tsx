@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useAccount } from 'wagmi';
 import { useNavigate } from 'react-router-dom';
 
-export default function Dashboard() {
+export default function DashboardPage() {
   const { isConnected } = useAccount();
   const navigate = useNavigate();
 
