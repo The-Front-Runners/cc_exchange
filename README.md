@@ -41,9 +41,7 @@ A documentação do projeto pode ser encontrarda atraves do link:
 - [Gitbook Carbon Credit Exchange](https://app.gitbook.com/o/cROnq52b6AKbefH03yTb/s/r5NTN7bdQdf8wkclrRwr/)
   
 ## Roadmap
-<iframe src="https://roadmap.sh/r/embed?id=65fd61356deb533d6e0f0030" width="100%" height="500px" frameBorder="0"
-></iframe>
-
+[Acesso ao roadmap](https://roadmap.sh/r?id=65fd61356deb533d6e0f0030)
 ## Sobre o Projeto
 - O projeto tem como objetivo apresentar uma aplicação real, inicialmente direcionada para empresas em fase inicial e, posteriormente, para usuários finais.
 - Possui o potencial de ser escalado em uma escala global, especialmente agora com o comprometimento de países na COP 26 em reduzir as emissões de carbono.
