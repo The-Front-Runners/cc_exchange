@@ -8,7 +8,7 @@ export default {
         'custom-gray': 'rgba(187, 193, 192, 0.75)',
       },
       backgroundImage: {
-        main: "url('/public/bgImage.jpeg')",
+        main: "url('/bgImage.jpeg')",
       },
     },
   },

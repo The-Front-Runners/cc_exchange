@@ -16,6 +16,20 @@ const tokenAddress = '0x0165878A594ca255338adfa4d48449f69242Eb8F';
 const provider = new ethers.providers.JsonRpcProvider('http://127.0.0.1:8545');
 const tokenContract = new ethers.Contract(tokenAddress, tokenABI.abi, provider);
 
+async function burnToken(value: number, account: UseAccountReturnType) {
+  try {
+    const signer = provider.getSigner();
+    const tokenContractWithSigner = tokenContract.connect(signer);
+    const burn = await tokenContractWithSigner.burn(value);
+    const balanceOf = await tokenContract.balanceOf(account.address);
+    const formattedBalanceOf = ethers.utils.formatUnits(balanceOf, 18);
+    return formattedBalanceOf;
+  } catch (error) {
+    console.error(error);
+    return '';
+  }
+}
+
 async function getTokenDetails(account: UseAccountReturnType) {
   try {
     const name = await tokenContract.name();
@@ -121,15 +135,20 @@ export default function DashboardPage() {
               text="Comprar"
             />
             <CarbonButton
-              click={() => {
+              click={async () => {
                 if (excessValue < 0) {
                   const neutralizationNumber = parseInt(balanceOf.slice(0, -2));
                   if (neutralizationNumber < consumptionValue) {
                     const burnValue = consumptionValue - neutralizationNumber;
                     setConsumptionValue(burnValue);
+                    setExcessValue(burnValue - productionValue);
+                    burnToken(burnValue, account);
                   } else {
                     setConsumptionValue(0);
+                    setExcessValue(0);
+                    burnToken(consumptionValue, account);
                   }
+                  location.reload();
                 }
               }}
               icon={<EqualIcon />}
