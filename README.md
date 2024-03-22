@@ -1,7 +1,12 @@
-
+### Equipe 
+- João Henrique dos Santos Ferreira
+- Marcelle Andrade Pereira
+- Vinicius Corrêa de Assis
+------------------------------------------------------------------------------------------------------------
 # CC_EXCHANGE
 
 O "cc_exchange" é um projeto de aplicativo descentralizado (dApp) focado na criação e gerenciamento de créditos de carbono na blockchain. Utilizando contratos inteligentes, o projeto permite que empresas submetam dados de redução de emissões de carbono para serem validados e, posteriormente, reivindiquem tokens de crédito de carbono correspondentes. Esses tokens representam uma quantidade específica de redução de emissões de carbono e podem ser negociados ou utilizados para compensar a pegada de carbono.
+
 ## Objetivos 
 O objetivo principal do "cc_exchange" é promover a transparência e a eficiência no mercado de créditos de carbono. Ao utilizar a tecnologia blockchain, o projeto visa garantir a integridade dos dados de redução de emissões e simplificar o processo de validação e emissão de créditos de carbono. Isso facilita para as empresas demonstrarem suas práticas sustentáveis e contribuírem para a luta contra as mudanças climáticas.
 
@@ -34,41 +39,13 @@ O projeto utiliza a rede Optimism para as transações, aproveitando sua escalab
 ## Documentação
 A documentação do projeto pode ser encontrarda atraves do link: 
 - [Gitbook Carbon Credit Exchange](https://app.gitbook.com/o/cROnq52b6AKbefH03yTb/s/r5NTN7bdQdf8wkclrRwr/)
+  
 ## Roadmap
 https://roadmap.sh/r?id=65fd61356deb533d6e0f0030
-## Contribuindo
-
-Contribuições são sempre bem-vindas!
-
-Veja `contribuindo.md` para saber como começar.
-
-Por favor, siga o `código de conduta` desse projeto.
-
-
-## Aprendizados
-
-O que você aprendeu construindo esse projeto? Quais desafios você enfrentou e como você superou-os?
-
-
-## Melhorias
-
-Que melhorias você fez no seu código? Ex: refatorações, melhorias de performance, acessibilidade, etc
-
-
-## Screenshots
-
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
-
 
 ## Instalação
 
-Instale my-project com npm
 
-```bash
-  npm install my-project
-  cd my-project
-```
-    
 ## 🚀 Sobre a Equipe 
 ### João Henrique dos Santos Ferreira
 
@@ -89,11 +66,45 @@ Sua formação inclui um bacharelado em Arquitetura e Urbanismo pela PUC Minas e
 
 
 ## 🛠 Habilidades da Equipe 
-### João Henrique(Desenvolvedor Front-end)
+### João Henrique (Desenvolvedor Front-end)
+- Desenvolvedor Front-end especializado em React.
 
-### Marcelle Andrade Pereira (Analista de Requistos)
-- Coleta, análise e documentação de requisitos para sistemas, priorizando necessidades de negócio e facilitando a comunicação entre stakeholders.
-- Criação de interfaces intuitivas e atraentes, baseadas em pesquisa de usuário, para garantir uma experiência digital eficaz e satisfatória. 
-- Ferramentas como Figma, Canva e Gitbook. 
+### Marcelle Andrade Pereira (Analista de Requisitos)
+- Coleta, análise e documentação de requisitos para sistemas, priorizando as necessidades de negócio e facilitando a comunicação entre stakeholders.
+- Criação de interfaces intuitivas e atraentes, baseadas em pesquisa de usuário, para garantir uma experiência digital eficaz e satisfatória.
+- Proficiente em ferramentas como Figma, Canva e Gitbook.
 
-### Vinicius Corrêa de Assis (Desenvolvedor Back-end e Líder Técnico)
+### Vinicius Corrêa de Assis (Desenvolvedor Full Stack e Líder Técnico)
+- Desenvolvedor Full Stack com experiência em desenvolvimento back-end e front-end.
+- Especializado em desenvolvimento em Solidity para contratos inteligentes.
+- Experiência em gerenciamento técnico de projetos.
+
+## Por que a Optimism ? 
+#### Introdução
+Neste projeto, optamos por utilizar a Optimism como nossa solução de camada 2 para a rede Ethereum. A escolha foi baseada em uma série de fatores que consideramos cruciais para o sucesso e a eficiência de nossa aplicação. Nesta seção, vamos explorar as razões por trás dessa decisão e discutir as vantagens e benefícios que a Optimism oferece.
+
+##### O que é Optimism?
+Optimism é uma solução de escalabilidade de camada 2 para a rede Ethereum que utiliza uma tecnologia chamada Rollups Optimistic. Essa abordagem permite transações mais rápidas e com custos significativamente menores, mantendo a segurança e a descentralização da rede principal do Ethereum.
+
+#### Vantagens da Optimism
+Baixo Custo de Transação
+Uma das principais vantagens da Optimism é a redução significativa no custo das transações. Como as transações são processadas fora da cadeia principal e posteriormente agregadas e enviadas de volta à cadeia principal, o custo associado a cada transação individual é drasticamente reduzido. Isso é particularmente benéfico para nosso projeto, que visa facilitar transações frequentes e de baixo valor.
+
+#### Velocidade de Transação
+A Optimism oferece tempos de confirmação de transações mais rápidos em comparação com a rede principal do Ethereum. Isso é essencial para a experiência do usuário em nosso projeto, garantindo que as interações sejam rápidas e fluidas.
+
+#### Compatibilidade com Ethereum
+Um dos pontos fortes da Optimism é sua compatibilidade com o ecossistema Ethereum existente. Isso significa que podemos aproveitar as ferramentas, bibliotecas e contratos inteligentes já estabelecidos no Ethereum, simplificando o processo de desenvolvimento e integração.
+
+#### Segurança
+Apesar das transações serem processadas fora da cadeia principal, a Optimism mantém um alto nível de segurança por meio do mecanismo de fraude de prova. Isso garante que qualquer transação inválida possa ser contestada e revertida, protegendo os usuários e os ativos do projeto.
+
+#### Benefícios para o Projeto
+A escolha da Optimism como nossa solução de camada 2 traz benefícios tangíveis para o projeto:
+
+Custo-efetividade: Permite que nossos usuários realizem transações a um custo reduzido, tornando o projeto mais acessível e viável para um público mais amplo.
+Experiência do Usuário: Oferece uma experiência de usuário mais rápida e suave, essencial para a adoção e satisfação do usuário.
+Escalabilidade: Capacita nosso projeto a escalar de forma eficiente, acomodando um maior volume de transações sem comprometer o desempenho.
+Integração Simplificada: Aproveita a compatibilidade com o ecossistema Ethereum, facilitando a integração de funcionalidades e a colaboração com outros projetos.
+Conclusão
+A escolha da Optimism como nossa solução de camada 2 é fundamentada em sua capacidade de oferecer transações rápidas, seguras e de baixo custo, enquanto mantém a compatibilidade com o ecossistema Ethereum. Essas características são essenciais para o sucesso de nosso projeto, permitindo que ofereçamos uma experiência de usuário superior e alcancemos nossos objetivos de escalabilidade e eficiência.
