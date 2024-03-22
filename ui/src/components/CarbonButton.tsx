@@ -1,20 +1,17 @@
-import { ReactNode, FC } from 'react';
+import { FC, ReactNode } from 'react';
 
-interface CarbonButton {
+interface CarbonButtonProps {
   icon: ReactNode;
   text: string;
 }
 
-const CarbonButton: FC<CarbonButton> = ({ icon, text }) => {
+const CarbonButton: FC<CarbonButtonProps> = ({ icon, text }) => {
   return (
     <button
-      className="py-5 rounded-xl font-semibold shadow-2xl hover:scale-[1.05] flex justify-center items-center gap-3"
-      style={{
-        backgroundImage: 'linear-gradient(to right, #346213, #519D1C, #6FD926)',
-      }}
+      className="flex items-center justify-center gap-2 px-6 py-3 text-white font-semibold rounded-lg shadow-lg transition-shadow duration-300 ease-in-out bg-gradient-to-r from-green-600 to-green-400 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
     >
       {icon}
-      <p>{text}</p>
+      <span>{text}</span>
     </button>
   );
 };
