@@ -1,3 +1,7 @@
+
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 export default function ContractPage() {
   // Example statuses for demonstration
   const contracts = [
@@ -21,6 +25,16 @@ export default function ContractPage() {
     }
   };
 
+  const handleClaim = (contractName: string) => {
+    toast.success(`Claimed tokens for contract: ${contractName}`);
+    // Add logic to actually claim tokens
+  };
+
+  const handleResend = (contractName: string) => {
+    toast.error(`Resent contract: ${contractName}`);
+    // Add logic to resend contract
+  };
+
   return (
     <div className="bg-green-900 h-screen p-5">
       <h1 className="text-white text-xl font-bold mb-5">CONTRATOS</h1>
@@ -36,20 +50,21 @@ export default function ContractPage() {
                   {contract.tokens}
                 </span>
                 {['Approved', 'Claimable'].includes(contract.status) && (
-                  <button className={getStatusStyles(contract.status)}>
+                  <button className={getStatusStyles(contract.status)} onClick={() => handleClaim(contract.name)}>
                     Claim
                   </button>
                 )}
               </div>
             </div>
             {contract.status === 'Rejected' && (
-              <button className={getStatusStyles(contract.status)}>
+              <button className={getStatusStyles(contract.status)} onClick={() => handleResend(contract.name)}>
                 Reenviar
               </button>
             )}
           </div>
         ))}
       </div>
+      <ToastContainer />
     </div>
   );
 }
