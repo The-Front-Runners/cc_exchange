@@ -3,6 +3,8 @@
 - Marcelle Andrade Pereira
 - Vinicius Corrêa de Assis
 ------------------------------------------------------------------------------------------------------------
+* Informações relacionadas ao teste e desenvolvimento do projeto estão dentro dos `README.md` de cada pasta.
+
 # CC_EXCHANGE
 
 O "cc_exchange" é um projeto de aplicativo descentralizado (dApp) focado na criação e gerenciamento de créditos de carbono na blockchain. Utilizando contratos inteligentes, o projeto permite que empresas submetam dados de redução de emissões de carbono para serem validados e, posteriormente, reivindiquem tokens de crédito de carbono correspondentes. Esses tokens representam uma quantidade específica de redução de emissões de carbono e podem ser negociados ou utilizados para compensar a pegada de carbono.
