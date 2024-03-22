@@ -16,13 +16,7 @@ git clone https://github.com/The-Front-Runners/cc_exchange.git
 cd seu-repositorio
 ```
 
-2. Instale as dependências:
-
-```sh
-npm install
-```
-
-3. Compile os contratos:
+2. Compile os contratos:
 
 ```sh
 forge build
@@ -49,36 +43,59 @@ Para fazer o deploy dos contratos tanto localmente (usando Anvil) quanto na test
 ```sh
 anvil
 ```
-2. Em um novo terminal, faça o deploy localmente:
+2. Em um novo terminal, faça o deploy do contrato de créditos de carbono localmente:
 
 ```sh
-forge script script/Deploy.s.sol:DeployLocal --fork-url http://localhost:8545 --private-key sua-chave-privada --broadcast
+./deploy-cc-on-local.sh
+```
+
+3. Em outro terminal, faça o deploy do contrato EmissionValidator localmente:
+
+```sh
+./deploy-ev-on-local.sh
 ```
 
 Para o deploy na testnet da Optimism, configure o arquivo .env com sua chave privada e endpoint da RPC da Optimism, e então execute:
 
 ```sh
-forge script script/Deploy.s.sol:DeployOptimismTestnet --rpc-url https://optimism-kovan.infura.io/v3/sua-infura-id --private-key sua-chave-privada --broadcast
+./deploy-cc-on-testnet.sh
 ```
 
-## Uso
+```sh
+./deploy-ev-on-testnet.sh
+```
+Não se esqueça de atualizar o .env conforme o .env.example.
+
+## Uso (IMPORTANTE)
 Após o deploy, você pode interagir com os contratos por meio de scripts ou diretamente em um console web3. Aqui está um exemplo de como uma empresa pode submeter uma validação e reivindicar tokens:
 
 1. A empresa submete um pedido de validação:
 
 ```sh
-ev.submitRequest("jsonHash", { from: COMPANY_ADDRESS });
+ev.submitRequest("jsonHash");
 ```
 2. O validador aprova o pedido:
 
 ```sh
-ev.validateRequest(0, EmissionValidator.Status.Approved, 1000 ether, { from: VALIDATOR_ADDRESS });
+ev.validateRequest(0, 1, 1000 ether);
 ```
+arg1: índice do pedido
+arg2: 1 para aprovar, 2 para rejeitar
+arg3: quantidade de tokens a serem disponibilizados
+
 3. A empresa reivindica seus tokens:
 
 ```sh
-ev.claimTokens(0, { from: COMPANY_ADDRESS });
+ev.claimTokens(0);
 ```
+
+**IMPORTANTE** 
+
+Lembre-se que este é o fluxo corrente, caso esteja fazendo deploy do zero, o owner deve adicionar a empresa como um validador antes de submeter um pedido de validação. Essa ação pode ser feita através da função *addValidator* do contrato EmissionValidator.
+
+Além disso, o contrato EmissionValidator precisa receber tokens de carbono, que devem ser providenciados pelo owner do contrato através da função *fundWithCarbonCredits*. 
+
+Não se esqueça de que os tokens $CC devem ser aprovados pelo owner antes de chamar a função *fundWithCarbonCredits*.
 
 ## Contribuindo
 Contribuições são sempre bem-vindas! Sinta-se à vontade para abrir issues ou enviar pull requests.

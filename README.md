@@ -3,6 +3,8 @@
 - Marcelle Andrade Pereira
 - Vinicius Corrêa de Assis
 ------------------------------------------------------------------------------------------------------------
+* Informações relacionadas ao teste e desenvolvimento do projeto estão dentro dos `README.md` de cada pasta.
+
 # CC_EXCHANGE
 
 O "cc_exchange" é um projeto de aplicativo descentralizado (dApp) focado na criação e gerenciamento de créditos de carbono na blockchain. Utilizando contratos inteligentes, o projeto permite que empresas submetam dados de redução de emissões de carbono para serem validados e, posteriormente, reivindiquem tokens de crédito de carbono correspondentes. Esses tokens representam uma quantidade específica de redução de emissões de carbono e podem ser negociados ou utilizados para compensar a pegada de carbono.
@@ -41,10 +43,10 @@ A documentação do projeto pode ser encontrarda atraves do link:
 - [Gitbook Carbon Credit Exchange](https://app.gitbook.com/o/cROnq52b6AKbefH03yTb/s/r5NTN7bdQdf8wkclrRwr/)
   
 ## Roadmap
-https://roadmap.sh/r?id=65fd61356deb533d6e0f0030
-
-## Instalação
-
+[Acesso ao roadmap](https://roadmap.sh/r?id=65fd61356deb533d6e0f0030)
+## Sobre o Projeto
+- O projeto tem como objetivo apresentar uma aplicação real, inicialmente direcionada para empresas em fase inicial e, posteriormente, para usuários finais.
+- Possui o potencial de ser escalado em uma escala global, especialmente agora com o comprometimento de países na COP 26 em reduzir as emissões de carbono.
 
 ## 🚀 Sobre a Equipe 
 ### João Henrique dos Santos Ferreira
@@ -63,7 +65,10 @@ Sua formação inclui um bacharelado em Arquitetura e Urbanismo pela PUC Minas e
 - [Linkedin Marcelle Andrade](https://www.linkedin.com/in/marcelle-andrade-pereira-56689715a/)
 
 ### Vinicius Corrêa de Assis
+Como Engenheiro de Software na WeClever, especializado em back-end com Node.js/TypeScript e JavaScript, ele possui uma vasta experiência no desenvolvimento de sistemas robustos e escaláveis. Seu foco está na criação de soluções eficientes que atendam às necessidades dos clientes e impulsionem o crescimento dos negócios.
 
+Atualmente, ele está cursando Bacharelado em Ciência da Computação na PUC Minas, onde tem a oportunidade de aprimorar suas habilidades técnicas e teóricas. Com uma formação abrangente e um histórico em desenvolvimento web obtido em bootcamps anteriores, ele está preparado para enfrentar os desafios dinâmicos do mundo da tecnologia e contribuir de forma significativa para projetos inovadores e de impacto.
+- [Linkedin Vinicius ](https://www.linkedin.com/in/viniciuscoassis/?originalSubdomain=br)
 
 ## 🛠 Habilidades da Equipe 
 ### João Henrique (Desenvolvedor Front-end)

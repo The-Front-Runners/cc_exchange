@@ -1,22 +1,35 @@
 version: '3.8'
 services:
-  frontend:
-    depends_on:
-      - anvil
-    build:
-      context: ./ui
-      dockerfile: Dockerfile
-    ports:
-      - 3000:3000
+  contract_interface:
+      platform: linux/arm64/v8
+      depends_on:
+        - anvil
+      build:
+        context: ./smartcontract_interface
+        dockerfile: Dockerfile
+      ports:
+        - 8080:8080
 
   anvil:
+    platform: linux/arm64/v8
     build:
       context: ./smartcontracts
       dockerfile: Dockerfile.anvil
     ports:
       - 8545:8545
 
+  frontend:
+    platform: linux/arm64/v8
+    depends_on:
+      - deploy
+    build:
+      context: ./ui
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+
   deploy:
+    platform: linux/arm64/v8
     depends_on:
       - anvil
     build:
