@@ -43,8 +43,9 @@ A documentação do projeto pode ser encontrarda atraves do link:
 ## Roadmap
 https://roadmap.sh/r?id=65fd61356deb533d6e0f0030
 
-## Instalação
-
+## Sobre o Projeto
+- O projeto tem como objetivo apresentar uma aplicação real, inicialmente direcionada para empresas em fase inicial e, posteriormente, para usuários finais.
+- Possui o potencial de ser escalado em uma escala global, especialmente agora com o comprometimento de países na COP 26 em reduzir as emissões de carbono.
 
 ## 🚀 Sobre a Equipe 
 ### João Henrique dos Santos Ferreira
@@ -63,7 +64,10 @@ Sua formação inclui um bacharelado em Arquitetura e Urbanismo pela PUC Minas e
 - [Linkedin Marcelle Andrade](https://www.linkedin.com/in/marcelle-andrade-pereira-56689715a/)
 
 ### Vinicius Corrêa de Assis
+Como Engenheiro de Software na WeClever, especializado em back-end com Node.js/TypeScript e JavaScript, ele possui uma vasta experiência no desenvolvimento de sistemas robustos e escaláveis. Seu foco está na criação de soluções eficientes que atendam às necessidades dos clientes e impulsionem o crescimento dos negócios.
 
+Atualmente, ele está cursando Bacharelado em Ciência da Computação na PUC Minas, onde tem a oportunidade de aprimorar suas habilidades técnicas e teóricas. Com uma formação abrangente e um histórico em desenvolvimento web obtido em bootcamps anteriores, ele está preparado para enfrentar os desafios dinâmicos do mundo da tecnologia e contribuir de forma significativa para projetos inovadores e de impacto.
+- [Linkedin Vinicius ](https://www.linkedin.com/in/viniciuscoassis/?originalSubdomain=br)
 
 ## 🛠 Habilidades da Equipe 
 ### João Henrique (Desenvolvedor Front-end)
