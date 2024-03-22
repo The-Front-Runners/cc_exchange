@@ -56,7 +56,7 @@ export default function AppLayout() {
           isSelected={false}
         />
       </div>
-      <div className="h-[95vh] rounded-bl-3xl bg-black/70">
+      <div className="h-[95vh] rounded-bl-3xl bg-black/70 text-white">
         <Outlet />
       </div>
     </div>
