@@ -12,15 +12,25 @@ import {
   getDefaultConfig,
   RainbowKitProvider,
   lightTheme,
+  Chain,
 } from '@rainbow-me/rainbowkit';
 import { WagmiProvider } from 'wagmi';
-import { mainnet, polygon, optimism, arbitrum, base, zora } from 'wagmi/chains';
+import { optimismSepolia } from 'wagmi/chains';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
+
+const anvil = {
+  id: 31_337,
+  name: 'Anvil',
+  nativeCurrency: { name: 'Ethereum', symbol: 'ETH', decimals: 18 },
+  rpcUrls: {
+    default: { http: ['http://127.0.0.1:8545'] },
+  },
+} as const satisfies Chain;
 
 const config = getDefaultConfig({
   appName: 'Carbon Credit Exchange',
   projectId: 'YOUR_PROJECT_ID',
-  chains: [mainnet, polygon, optimism, arbitrum, base, zora],
+  chains: [anvil],
   ssr: false,
 });
 
@@ -37,7 +47,7 @@ function App() {
             borderRadius: 'medium',
             fontStack: 'system',
           })}
-          initialChain={optimism}
+          initialChain={anvil}
         >
           <Routes>
             <Route path="/" element={<HomePage />} />

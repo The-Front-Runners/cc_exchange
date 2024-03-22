@@ -29,8 +29,8 @@ const NavItem: FC<NavItem> = ({ icon, text, link }) => {
 
 export default function AppLayout() {
   return (
-    <div className="grid grid-cols-[25%_1fr] h-[100vh] bg-lime-400">
-      <div className="flex flex-col gap-4 px-4 py-10 mx-5">
+    <div className="grid grid-cols-[25%_1fr] h-[100vh] bg-main bg-no-repeat bg-cover bg-center max-[1400px]:grid-cols-1">
+      <div className="flex flex-col gap-4 px-4 py-10 mx-5 max-[1400px]:hidden">
         <NavItem
           icon={<DashboardIcon />}
           text="Dashboard"
