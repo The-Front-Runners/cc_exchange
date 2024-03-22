@@ -1,66 +1,88 @@
-## Foundry
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+# CC Exchange 
 
-Foundry consists of:
+## Visão Geral
+Este projeto consiste em um dApp (aplicativo descentralizado) voltado para a manipulação de tokens de crédito de carbono. Ele é construído sobre a rede Optimism, uma solução de escalabilidade de camada 2 para Ethereum, que oferece transações mais rápidas e custos reduzidos. O contrato do token segue o padrão ERC20, e o EmissionValidator permite que empresas submetam suas validações para uma instituição validadora e reivindiquem seus tokens após a aprovação.
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+## Pré-requisitos
+- Node.js
+- Foundry
 
-## Documentation
+## Instalação
+1. Clone o repositório:
 
-https://book.getfoundry.sh/
-
-## Usage
-
-### Build
-
-```shell
-$ forge build
+```sh
+git clone https://github.com/The-Front-Runners/cc_exchange.git
+cd seu-repositorio
 ```
 
-### Test
+2. Instale as dependências:
 
-```shell
-$ forge test
+```sh
+npm install
 ```
 
-### Format
+3. Compile os contratos:
 
-```shell
-$ forge fmt
+```sh
+forge build
 ```
 
-### Gas Snapshots
+## Testando
+Para executar os testes unitários, utilize o seguinte comando:
 
-```shell
-$ forge snapshot
+```sh
+forge test
 ```
 
-### Anvil
+Para testar a interação completa do EmissionValidator, você pode usar o seguinte teste end-to-end:
 
-```shell
-$ anvil
+```sh
+forge test -vv --match-contract EmissionValidatorTest
 ```
 
-### Deploy
+## Deploy
+Para fazer o deploy dos contratos tanto localmente (usando Anvil) quanto na testnet da Optimism, siga os passos abaixo:
 
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
+1. Inicie o Anvil:
+
+```sh
+anvil
+```
+2. Em um novo terminal, faça o deploy localmente:
+
+```sh
+forge script script/Deploy.s.sol:DeployLocal --fork-url http://localhost:8545 --private-key sua-chave-privada --broadcast
 ```
 
-### Cast
+Para o deploy na testnet da Optimism, configure o arquivo .env com sua chave privada e endpoint da RPC da Optimism, e então execute:
 
-```shell
-$ cast <subcommand>
+```sh
+forge script script/Deploy.s.sol:DeployOptimismTestnet --rpc-url https://optimism-kovan.infura.io/v3/sua-infura-id --private-key sua-chave-privada --broadcast
 ```
 
-### Help
+## Uso
+Após o deploy, você pode interagir com os contratos por meio de scripts ou diretamente em um console web3. Aqui está um exemplo de como uma empresa pode submeter uma validação e reivindicar tokens:
 
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
+1. A empresa submete um pedido de validação:
+
+```sh
+ev.submitRequest("jsonHash", { from: COMPANY_ADDRESS });
 ```
+2. O validador aprova o pedido:
+
+```sh
+ev.validateRequest(0, EmissionValidator.Status.Approved, 1000 ether, { from: VALIDATOR_ADDRESS });
+```
+3. A empresa reivindica seus tokens:
+
+```sh
+ev.claimTokens(0, { from: COMPANY_ADDRESS });
+```
+
+## Contribuindo
+Contribuições são sempre bem-vindas! Sinta-se à vontade para abrir issues ou enviar pull requests.
+
+
+## Licença
+MIT
