@@ -1,9 +1,32 @@
 
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useReadContract } from 'wagmi';
+import deployedContracts from '../generated/deployedContracts.ts';
+import { useEffect } from 'react';
 
 export default function ContractPage() {
-  // Example statuses for demonstration
+  const emissionValidatorABI = deployedContracts["31337"][0].contracts.EmissionValidator.abi;
+  const contractAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
+  const userAddress = '0x2CbefA4CF77376ee42ee0523aC484d8554d16886'; 
+
+  const { data, isError, isLoading, error } = useReadContract({
+    address: contractAddress,
+    abi: emissionValidatorABI,
+    functionName: 'getRequestsByAddress',
+    args: [userAddress],
+  });
+
+  useEffect(() => {
+    console.log('Contract data:', data);
+    console.log('Error:', isError);
+    console.log('Loading:', isLoading);
+    console.log('Error message:', error);
+  })
+
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error fetching contract data</div>;
+
   const contracts = [
     { name: 'Frota de caminhões elétricos 1', tokens: '30 000 $CC', status: 'Approved' },
     { name: 'Frota de caminhões elétricos 2', tokens: '15 000 $CC', status: 'Claimable' },
@@ -27,6 +50,7 @@ export default function ContractPage() {
 
   const handleClaim = (contractName: string) => {
     toast.success(`Claimed tokens for contract: ${contractName}`);
+    
     // Add logic to actually claim tokens
   };
 
