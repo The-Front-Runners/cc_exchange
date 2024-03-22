@@ -16,6 +16,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.3",
+    "react-toastify": "^10.0.5",
     "viem": "^2.8.14",
     "wagmi": "^2.5.11"
   },
