@@ -93,7 +93,9 @@ ev.claimTokens(0);
 
 Lembre-se que este é o fluxo corrente, caso esteja fazendo deploy do zero, o owner deve adicionar a empresa como um validador antes de submeter um pedido de validação. Essa ação pode ser feita através da função *addValidator* do contrato EmissionValidator.
 
-Além disso, o contrato EmissionValidator precisa receber tokens de carbono, que devem ser providenciados pelo owner do contrato através da função *fundWithCarbonCredits*
+Além disso, o contrato EmissionValidator precisa receber tokens de carbono, que devem ser providenciados pelo owner do contrato através da função *fundWithCarbonCredits*. 
+
+Não se esqueça de que os tokens $CC devem ser aprovados pelo owner antes de chamar a função *fundWithCarbonCredits*.
 
 ## Contribuindo
 Contribuições são sempre bem-vindas! Sinta-se à vontade para abrir issues ou enviar pull requests.
