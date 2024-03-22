@@ -1,7 +1,10 @@
 import { Routes, Route } from 'react-router-dom';
-import Home from './pages/Home.tsx';
-import Dashboard from './pages/Dashboard.tsx';
-import Transfer from './pages/Transfer.tsx';
+import HomePage from './pages/HomePage.tsx';
+import DashboardPage from './pages/DashboardPage.tsx';
+import TransferPage from './pages/TransferPage.tsx';
+import ContractPage from './pages/ContractPage.tsx';
+import ValidationPage from './pages/ValidationPage.tsx';
+import AppLayout from './components/AppLayout.tsx';
 
 // Rainbow Kit
 import '@rainbow-me/rainbowkit/styles.css';
@@ -29,7 +32,7 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <RainbowKitProvider
           theme={lightTheme({
-            accentColor: 'rgb(101, 163, 13)',
+            accentColor: 'linear-gradient(to left, #3e70a1, #6bd124);',
             accentColorForeground: 'white',
             borderRadius: 'medium',
             fontStack: 'system',
@@ -37,9 +40,13 @@ function App() {
           initialChain={optimism}
         >
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/transfer" element={<Transfer />} />
+            <Route path="/" element={<HomePage />} />
+            <Route element={<AppLayout />}>
+              <Route path="/dashboard" element={<DashboardPage />} />
+              <Route path="/transfer" element={<TransferPage />} />
+              <Route path="/contracts" element={<ContractPage />} />
+              <Route path="/validation" element={<ValidationPage />} />
+            </Route>
           </Routes>
         </RainbowKitProvider>
       </QueryClientProvider>
