@@ -5,7 +5,6 @@ from dataclasses import dataclass, field
 from json import dumps, load
 from typing import List
 import os
-import shutil 
 
 import argparse
 
@@ -31,11 +30,7 @@ CHAIN_ID = 31337
 CONTRACT_SCRIPT_NAME = f"Deploy{args.contract}.s.sol"
 TRANSACTIONS_PATH = f"broadcast/{CONTRACT_SCRIPT_NAME}/{CHAIN_ID}/run-latest.json"
 TARGET_DIR = "../smartcontract_interface/generated/deployedContracts.ts"
-UI_TARGET_DIR = "../ui/generated"  
-
-def abi_path(name) -> str:
-    return f"out/{name}.sol/{name}.json"
-
+UI_TARGET_DIR = "../ui/generated"
 
 os.makedirs(UI_TARGET_DIR, exist_ok=True)
 
@@ -47,14 +42,18 @@ with open(TRANSACTIONS_PATH) as deployed_contracts:
     for contract in transactions:
         if contract["transactionType"] == "CREATE":
             name, address = contract["contractName"], contract["contractAddress"]
-            contract_abi_path = abi_path(name)
-            with open(contract_abi_path) as full_abi_json:
+            abi_file_path = f"out/{name}.sol/{name}.json"
+            with open(abi_file_path) as full_abi_json:
                 abi = load(full_abi_json)["abi"]
                 contracts.append(Contract(name, address, abi))
 
-                
-                ui_target_path = os.path.join(UI_TARGET_DIR, f"{name}.json")
-                shutil.copy(contract_abi_path, ui_target_path)
+                # Create a TypeScript file with the ABI
+                ui_target_path = os.path.join(UI_TARGET_DIR, f"{name}.ts")
+                with open(ui_target_path, "w") as ts_file:
+                    # Ajuste aqui para incluir o nome dinamicamente no export
+                    ts_content = f"export const {name}Contract = {{\n    \"address\": \"{address}\",\n    \"abi\": {dumps(abi)}\n}};\n\nexport default {name}Contract;"
+                    ts_file.write(ts_content)
+
 
 json_config = {
     CHAIN_ID: [{"name": "localhost", "chainId": str(CHAIN_ID), "contracts": {}}]
