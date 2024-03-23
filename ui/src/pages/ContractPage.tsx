@@ -1,31 +1,35 @@
 
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useReadContract } from 'wagmi';
-import deployedContracts from '../generated/deployedContracts.ts';
+import { ethers } from 'ethers';
+import CarbonCreditContract from '../../generated/CarbonCredit.ts';
+import {EmissionValidatorContract} from '../../generated/EmissionValidator.ts';
 import { useEffect } from 'react';
+import { useAccount } from 'wagmi';
 
 export default function ContractPage() {
-  const emissionValidatorABI = deployedContracts["31337"][0].contracts.EmissionValidator.abi;
-  const contractAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
-  const userAddress = '0x2CbefA4CF77376ee42ee0523aC484d8554d16886'; 
+  const emissionValidatorAddress = EmissionValidatorContract.address;
+  const carbonCreditContractAddress = CarbonCreditContract.address;
 
-  const { data, isError, isLoading, error } = useReadContract({
-    address: contractAddress,
-    abi: emissionValidatorABI,
-    functionName: 'getRequestsByAddress',
-    args: [userAddress],
-  });
-
+  const { address } = useAccount();
+  const userAddress = address;
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const signer = provider.getSigner();
+  const emissionValidator = new ethers.Contract(
+    EmissionValidatorContract.address,
+    EmissionValidatorContract.abi,
+    signer
+  );
+  
   useEffect(() => {
-    console.log('Contract data:', data);
-    console.log('Error:', isError);
-    console.log('Loading:', isLoading);
-    console.log('Error message:', error);
+    console.log('User address:', userAddress);
+    console.log("CarbonCredit address:", carbonCreditContractAddress);
+    console.log("EmissionValidator address:", emissionValidatorAddress);
+    //calling emission validator getRequestsByUser;
+    emissionValidator.getRequestsByAddress(userAddress).then((requests: number[]) => {
+      console.log('Requests:', requests);
+    });
   })
-
-  if (isLoading) return <div>Loading...</div>;
-  if (isError) return <div>Error fetching contract data</div>;
 
   const contracts = [
     { name: 'Frota de caminhões elétricos 1', tokens: '30 000 $CC', status: 'Approved' },

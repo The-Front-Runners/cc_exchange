@@ -20,7 +20,7 @@ async function burnToken(value: number, account: UseAccountReturnType) {
   try {
     const signer = provider.getSigner();
     const tokenContractWithSigner = tokenContract.connect(signer);
-    const burn = await tokenContractWithSigner.burn(value);
+    await tokenContractWithSigner.burn(value);
     const balanceOf = await tokenContract.balanceOf(account.address);
     const formattedBalanceOf = ethers.utils.formatUnits(balanceOf, 18);
     return formattedBalanceOf;
@@ -56,8 +56,8 @@ export default function DashboardPage() {
 
   const [balanceOf, setBalanceOf] = useState('');
 
+  const productionValue = 1000;
   const [consumptionValue, setConsumptionValue] = useState(1200);
-  const [productionValue, setProductionValue] = useState(1000);
   const [excessValue, setExcessValue] = useState(-200);
 
   useEffect(() => {

@@ -1,7 +1,5 @@
 import { useState } from 'react';
 import 'react-toastify/dist/ReactToastify.css';
-// import { SwapWidget } from '@uniswap/widgets';
-// import '@uniswap/widgets/fonts.css';
 
 export default function DexTransferPage() {
   const [fromToken, setFromToken] = useState('ETH');
@@ -20,17 +18,6 @@ export default function DexTransferPage() {
   const handleSwap = () => {
     console.log(`Swapping ${amount} ${fromToken} to ${toToken}`);
     // Here you would add the logic for swapping tokens
-  };
-
-  const theme: Theme = {
-    primary: '#1F4A05',
-    secondary: '#5F7D52',
-    interactive: '#CBD6BA',
-    container: '#D9ECD9',
-    module: '#E9F7DF',
-    accent: '#8E8B78',
-    outline: '#CADDC2',
-    dialog: '#FFF',
   };
 
   return (
@@ -98,8 +85,5 @@ export default function DexTransferPage() {
         </button>
       </div>
     </div>
-    // <div className="Uniswap flex items-center justify-center h-full">
-    //   <SwapWidget theme={theme} />
-    // </div>
   );
 }
