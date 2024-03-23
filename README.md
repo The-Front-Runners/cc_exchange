@@ -19,6 +19,11 @@ Validação: Validadores aprovados revisam os dados submetidos e, se estiverem d
 Emissão de Tokens: Uma vez aprovada a solicitação, a empresa pode reivindicar tokens de crédito de carbono correspondentes à quantidade de redução de emissões validada. Esses tokens podem ser negociados ou utilizados para fins de compensação de carbono.
 O projeto utiliza a rede Optimism para as transações, aproveitando sua escalabilidade e baixos custos, o que é essencial para o grande volume de transações envolvidas no mercado de créditos de carbono.
 
+## Rodar em docker:
+```bash
+docker compose -f "docker-compose.yml" up -d --build
+```
+
 ## Referência
 
  - [Awesome Readme Templates](https://awesomeopensource.com/project/elangosundar/awesome-README-templates)
