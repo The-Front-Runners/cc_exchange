@@ -10,11 +10,15 @@ import EqualIcon from '../icons/EqualIcon';
 import CarbonButton from '../components/CarbonButton';
 
 import { ethers } from 'ethers';
-import tokenABI from '../../generated/CarbonCredit.json';
+import CarbonCreditContract from '../../generated/CarbonCredit';
 
-const tokenAddress = '0x0165878A594ca255338adfa4d48449f69242Eb8F';
+const tokenAddress = CarbonCreditContract.address;
 const provider = new ethers.providers.JsonRpcProvider('http://127.0.0.1:8545');
-const tokenContract = new ethers.Contract(tokenAddress, tokenABI.abi, provider);
+const tokenContract = new ethers.Contract(
+  tokenAddress,
+  CarbonCreditContract.abi,
+  provider
+);
 
 async function burnToken(value: number, account: UseAccountReturnType) {
   try {
