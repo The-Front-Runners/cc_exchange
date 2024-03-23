@@ -1,30 +1,35 @@
-# React + TypeScript + Vite
+## Interface do dApp CC Exchange
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Esta interface é responsável para a interação do usuário com o dApp CC Exchange. A interface é composta por 4 telas principais: 
 
-Currently, two official plugins are available:
+1. Dashboard: Tela inicial do dApp, onde o usuário pode visualizar o saldo de $CC, o nível da pegada de carbono em seu país, o balanço geral de carbono (consumidos, produzidos e saldo) e informações sobre como você pode neutralizar o carbono da empresa destino.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+2. Transacionar $CC: Tela onde o usuário pode comprar $CC. O usuário pode escolher a quantidade de $CC que deseja comprar através de um widget para a dex da uniswap.
 
-## Expanding the ESLint configuration
+3. Contratos de Carbono: Tela onde o usuário pode visualizar os contratos de carbono que ele possui. O usuário pode visualizar o status de cada solicitação. Cada solicitação depende de um validador registrado para ser aprovada. Ao ser aprovada, o card do contrato de carbono é atualizado com o status de aprovado, possibilitando a empresa que fez a requisição coletar seus tokens de carbono.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+4. Submissão de requisições: Tela onde o usuário pode submeter uma requisição de contrato de carbono. O usuário deve escolher um dos validadores registrados, nomear a requisição e submeter um link para o documento de validação. A requisição é enviada para um validador registrado, que pode aprovar ou rejeitar a requisição.
 
-- Configure the top-level `parserOptions` property like this:
+## Como rodar o projeto
+```bash
+## Instale as dependências
+npm install
+ 
+## Em um terminal separado, rode o servidor local do projeto
+anvil
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+## Em um segundo terminal, faça deploy dos contratos na rede local
+cd ../smartcontracts 
+./deploy-cc-on-local.sh
+./deploy-ev-on-local.sh
+
+## Rode o projeto
+npm run dev
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Rodar projeto completo com docker
+```bash
+docker-compose up
+```
+
+
