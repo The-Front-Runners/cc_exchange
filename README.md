@@ -8,6 +8,7 @@
 # CC_EXCHANGE
 
 O "cc_exchange" é um projeto de aplicativo descentralizado (dApp) focado na criação e gerenciamento de créditos de carbono na blockchain. Utilizando contratos inteligentes, o projeto permite que empresas submetam dados de redução de emissões de carbono para serem validados e, posteriormente, reivindiquem tokens de crédito de carbono correspondentes. Esses tokens representam uma quantidade específica de redução de emissões de carbono e podem ser negociados ou utilizados para compensar a pegada de carbono.
+## [Slides](https://www.canva.com/design/DAGAQyeaIWA/BjhbUfDm6dpYMgG1FFwOiQ/view?utm_content=DAGAQyeaIWA&utm_campaign=designshare&utm_medium=link&utm_source=editor)
 
 ## Objetivos 
 O objetivo principal do "cc_exchange" é promover a transparência e a eficiência no mercado de créditos de carbono. Ao utilizar a tecnologia blockchain, o projeto visa garantir a integridade dos dados de redução de emissões e simplificar o processo de validação e emissão de créditos de carbono. Isso facilita para as empresas demonstrarem suas práticas sustentáveis e contribuírem para a luta contra as mudanças climáticas.
@@ -19,7 +20,7 @@ Validação: Validadores aprovados revisam os dados submetidos e, se estiverem d
 Emissão de Tokens: Uma vez aprovada a solicitação, a empresa pode reivindicar tokens de crédito de carbono correspondentes à quantidade de redução de emissões validada. Esses tokens podem ser negociados ou utilizados para fins de compensação de carbono.
 O projeto utiliza a rede Optimism para as transações, aproveitando sua escalabilidade e baixos custos, o que é essencial para o grande volume de transações envolvidas no mercado de créditos de carbono.
 
-[Slides](https://www.canva.com/design/DAGAQyeaIWA/BjhbUfDm6dpYMgG1FFwOiQ/view?utm_content=DAGAQyeaIWA&utm_campaign=designshare&utm_medium=link&utm_source=editor)
+
 
 ## Rodar em docker:
 ```bash
