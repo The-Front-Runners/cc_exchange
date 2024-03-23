@@ -53,6 +53,15 @@ A documentação do projeto pode ser encontrarda atraves do link:
 - O projeto tem como objetivo apresentar uma aplicação real, inicialmente direcionada para empresas em fase inicial e, posteriormente, para usuários finais.
 - Possui o potencial de ser escalado em uma escala global, especialmente agora com o comprometimento de países na COP 26 em reduzir as emissões de carbono.
 
+#### Visão Inicial
+Nossa visão inicial era criar uma plataforma de troca de créditos de carbono baseada em blockchain que resolvesse os principais desafios enfrentados pelo mercado atual. Queríamos oferecer transparência, eficiência e confiança nas transações, incentivando empresas e indivíduos a participarem ativamente na redução das emissões de carbono e no combate às mudanças climáticas.
+
+#### Conquistas e Desafios
+Durante o desenvolvimento do projeto, conseguimos implementar com sucesso várias funcionalidades-chave, como a transparência das transações, a rastreabilidade dos créditos de carbono e a eficiência operacional do sistema. No entanto, enfrentamos alguns desafios significativos, principalmente relacionados à integração de algumas tecnologias de blockchain específicas e à complexidade do processo de validação de dados de emissões de carbono.
+
+#### Aprendizados 
+O processo de desenvolvimento desse projeto nos proporcionou uma série de aprendizados valiosos. Aprendemos sobre a importância da colaboração e comunicação eficaz em equipe, especialmente ao lidar com tecnologias emergentes e desafios técnicos. Além disso, adquirimos um entendimento mais profundo sobre o funcionamento do mercado de créditos de carbono e os impactos da tecnologia blockchain na mitigação das mudanças climáticas. Também aprendemos a importância da flexibilidade e adaptação rápida diante de obstáculos inesperados, mantendo o foco em nossa visão e objetivos finais.
+
 ## 🚀 Sobre a Equipe 
 ### João Henrique dos Santos Ferreira
 
