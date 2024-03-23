@@ -10,7 +10,7 @@ import EqualIcon from '../icons/EqualIcon';
 import CarbonButton from '../components/CarbonButton';
 
 import { ethers } from 'ethers';
-import tokenABI from '../../../smartcontracts/out/CarbonCredit.sol/CarbonCredit.json';
+import tokenABI from '../../generated/CarbonCredit.json';
 
 const tokenAddress = '0x0165878A594ca255338adfa4d48449f69242Eb8F';
 const provider = new ethers.providers.JsonRpcProvider('http://127.0.0.1:8545');

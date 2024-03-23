@@ -15,7 +15,6 @@ import {
   Chain,
 } from '@rainbow-me/rainbowkit';
 import { WagmiProvider } from 'wagmi';
-import { optimismSepolia } from 'wagmi/chains';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 
 const anvil = {
